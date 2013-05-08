@@ -150,6 +150,18 @@ describe 'Parser.Long', ->
 
     """
 
+  it "should parse padded tid", (done) ->
+    parser = new LongParser
+    parser.on 'entry', (entry) ->
+      expect(entry.tid).to.equal 4712
+      done()
+    parser.parse new Buffer """
+      [ 05-09 08:49:28.298  4691: 4712 D/PicasaUploaderSyncManager ]
+      battery info: true
+
+
+    """
+
   it "should parse '\\r\\n' same as '\\n'", (done) ->
     parser = new LongParser
     parser.on 'entry', (entry) ->
