@@ -26,40 +26,49 @@ class Long extends Parser
     ([^ ]+) # tag
     \x20
     \]
-    \n
+    \r?\n
     ([\s\S]*) # message
   $ ///
 
   constructor: ->
     @cursor = 0
     @line = 0
+    @lineEndLength = 1
     @buffer = new Buffer ''
 
   parse: (chunk) ->
     @buffer = Buffer.concat [@buffer, chunk]
     while @cursor < @buffer.length
-      if @buffer[@cursor] is 0x0a # '\n'
-        if @buffer[0] is 0x2d # '--------- beginning of /dev/log/*'
-          this._parseHead @buffer.slice 0, @cursor
-          @buffer = @buffer.slice @cursor + 1
-          @cursor = 0
-          @line = 0
-        else
-          @line += 1
-          if @line >= 2 # '\n\n'
-            # Just in case the message ends with '\n', only use the last pair.
-            unless @buffer[@cursor + 1] is 0x0a # '\n'
-              this._parseEntry @buffer.slice 0, @cursor - @line + 1
+      switch @buffer[@cursor]
+        when 0x0a # '\n'
+          if @cursor is @lineEndLength - 1 # empty line
+            @buffer = @buffer.slice @cursor + 1
+            this._reset()
+          else if @buffer[0] is 0x2d # '--------- beginning of /dev/log/*'
+            this._parseHead @buffer.slice 0, @cursor
+            @buffer = @buffer.slice @cursor + 1
+            this._reset()
+          else
+            @line += 1
+            if @line >= 2 # '\n\n'
+              this._parseEntry @buffer.slice 0,
+                @cursor - @line * @lineEndLength + 1
               @buffer = @buffer.slice @cursor + 1
-              @cursor = 0
-              @line = 0
-      else
-        @line = 0
+              this._reset()
+        when 0x0d # '\r'
+          @lineEndLength = 2
+        else
+          @line = 0
       @cursor += 1
     if @buffer.length
       this.emit 'wait'
     else
       this.emit 'drain'
+    return
+
+  _reset: ->
+    @cursor = 0
+    @line = 0
     return
 
   _parseHead: (data) ->

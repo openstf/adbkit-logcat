@@ -10,7 +10,8 @@ class Stream extends EventEmitter
 
   _hook: ->
     @stream.on 'readable', =>
-      @parser.parse @stream.read()
+      if data = @stream.read()
+        @parser.parse data
     @stream.on 'error', (err) =>
       this.emit 'error', err
     @stream.on 'end', =>

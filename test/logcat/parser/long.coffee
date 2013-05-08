@@ -149,3 +149,41 @@ describe 'Parser.Long', ->
 
 
     """
+
+  it "should parse '\\r\\n' same as '\\n'", (done) ->
+    parser = new LongParser
+    parser.on 'entry', (entry) ->
+      expect(entry.message).to.equal 'updateRAFT() : FactoryMode : false'
+      done()
+    parser.parse new Buffer """
+      --------- beginning of /dev/log/main\r
+      --------- beginning of /dev/log/system\r
+      [ 05-08 14:46:41.753  2851:0xb23 D/PhoneUtils ]\r
+      updateRAFT() : FactoryMode : false\r
+      \r
+
+    """
+
+  it "should remove trailing '\\r\\n' from messages", (done) ->
+    parser = new LongParser
+    beginSpy = Sinon.spy()
+    entrySpy = Sinon.spy()
+    parser.on 'begin', beginSpy
+    parser.on 'entry', entrySpy
+    parser.on 'drain', ->
+      expect(beginSpy).to.have.been.calledTwice
+      expect(entrySpy).to.have.been.calledTwice
+      done()
+    parser.parse new Buffer """
+      --------- beginning of /dev/log/main\r
+      --------- beginning of /dev/log/system\r
+      [ 05-08 14:46:41.753  2851:0xb23 D/PhoneUtils ]\r
+      updateRAFT current state : 4\r
+      \r
+      \r
+      \r
+      [ 05-08 14:46:41.753  2851:0xb23 D/PhoneUtils ]\r
+      updateRAFT() : FactoryMode : false\r
+      \r
+
+    """
