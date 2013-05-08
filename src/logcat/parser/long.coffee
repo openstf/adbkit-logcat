@@ -19,7 +19,7 @@ class Long extends Parser
     \x20+
     (\d+) # pid
     :
-    (\d+|0x[a-f0-9]+) # tid
+    \x20*(\d+|0x[a-f0-9]+) # tid
     \x20
     ([A-Z]) # priority
     /
