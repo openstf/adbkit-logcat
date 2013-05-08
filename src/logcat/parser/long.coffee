@@ -1,7 +1,7 @@
-Format = require './format'
+Parser = require '../parser'
 Entry = require '../entry'
 
-class LongFormat extends Format
+class Long extends Parser
   FORMAT = /// ^
     \[
     \x20
@@ -92,4 +92,4 @@ class LongFormat extends Format
     this.emit 'error', new SyntaxError "Unparseable entry '#{entry}'"
     return
 
-module.exports = LongFormat
+module.exports = Long

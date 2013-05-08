@@ -3,28 +3,28 @@ Chai = require 'chai'
 Chai.use require 'sinon-chai'
 {expect} = Chai
 
-Format = require '../../../src/logcat/parser/format'
-LongFormat = require '../../../src/logcat/parser/longformat'
+Parser = require '../../../src/logcat/parser'
+LongParser = require '../../../src/logcat/parser/long'
 
-describe 'LongFormat', ->
+describe 'Parser.Long', ->
 
-  it "should implement Format", (done) ->
-    parser = new LongFormat
-    expect(parser).to.be.an.instanceOf Format
+  it "should implement Parser", (done) ->
+    parser = new LongParser
+    expect(parser).to.be.an.instanceOf Parser
     done()
 
   it "should emit 'drain' when all data has been parsed", (done) ->
-    parser = new LongFormat
+    parser = new LongParser
     parser.on 'drain', done
     parser.parse new Buffer ''
 
   it "should emit 'wait' when waiting for more data", (done) ->
-    parser = new LongFormat
+    parser = new LongParser
     parser.on 'wait', done
     parser.parse new Buffer 'foo'
 
   it "should emit 'error' for unknown data", (done) ->
-    parser = new LongFormat
+    parser = new LongParser
     parser.on 'error', (err) ->
       expect(err).to.be.an.instanceOf SyntaxError
       expect(err.message).to.equal "Unparseable entry 'foo'"
@@ -32,7 +32,7 @@ describe 'LongFormat', ->
     parser.parse new Buffer 'foo\n\n'
 
   it "should emit 'begin' for 'beginning of' lines", (done) ->
-    parser = new LongFormat
+    parser = new LongParser
     beginSpy = Sinon.spy()
     entrySpy = Sinon.spy()
     parser.on 'begin', beginSpy
@@ -49,7 +49,7 @@ describe 'LongFormat', ->
     """
 
   it "should emit 'entry' for a log entry", (done) ->
-    parser = new LongFormat
+    parser = new LongParser
     parser.on 'entry', (entry) ->
       expect(entry.date).to.be.an.instanceOf Date
       expect(entry.date.getFullYear()).to.equal new Date().getFullYear()
@@ -73,7 +73,7 @@ describe 'LongFormat', ->
     """
 
   it "should parse an entry that arrives in multiple chunks", (done) ->
-    parser = new LongFormat
+    parser = new LongParser
     parser.on 'entry', (entry) ->
       expect(entry.date).to.be.an.instanceOf Date
       expect(entry.date.getFullYear()).to.equal new Date().getFullYear()
@@ -95,7 +95,7 @@ describe 'LongFormat', ->
     parser.parse new Buffer '\n'
 
   it "should remove trailing newlines from messages", (done) ->
-    parser = new LongFormat
+    parser = new LongParser
     parser.on 'entry', (entry) ->
       expect(entry.message).to.equal 'DrReadUsbStatus File Open success'
       done()
@@ -109,7 +109,7 @@ describe 'LongFormat', ->
     """
 
   it "should parse multiple entries at once", (done) ->
-    parser = new LongFormat
+    parser = new LongParser
     entrySpy = Sinon.spy()
     parser.on 'entry', entrySpy
     parser.on 'drain', ->
@@ -129,7 +129,7 @@ describe 'LongFormat', ->
     """
 
   it "should parse complete event stream with headers", (done) ->
-    parser = new LongFormat
+    parser = new LongParser
     beginSpy = Sinon.spy()
     entrySpy = Sinon.spy()
     parser.on 'begin', beginSpy
