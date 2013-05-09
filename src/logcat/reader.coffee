@@ -9,9 +9,8 @@ class Reader extends EventEmitter
     @stream = null
 
   _hook: ->
-    @stream.on 'readable', =>
-      if data = @stream.read()
-        @parser.parse data
+    @stream.on 'data', (data) =>
+      @parser.parse data
     @stream.on 'error', (err) =>
       this.emit 'error', err
     @stream.on 'end', =>
