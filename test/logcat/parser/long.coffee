@@ -48,6 +48,27 @@ describe 'Parser.Long', ->
 
     """
 
+
+  it "should emit 'begin' for 'beginning of' lines between message", (done) ->
+    parser = new LongParser
+    beginSpy = Sinon.spy()
+    parser.on 'begin', beginSpy
+    parser.on 'drain', ->
+      expect(beginSpy).to.have.been.calledWith '/dev/log/events'
+      done()
+    parser.parse new Buffer """
+      [ 05-08 13:30:11.748  2700:0xac7 D/PowerManagerService ]
+      onSensorChanged: light value: 1000
+
+      --------- beginning of /dev/log/events
+
+    """
+
+  it "should emit 'waitDevice' when waiting for device", (done) ->
+    parser = new LongParser
+    parser.on 'waitDevice', done
+    parser.parse new Buffer '- waiting for device -\n'
+
   it "should emit 'entry' for a log entry", (done) ->
     parser = new LongParser
     parser.on 'entry', (entry) ->
@@ -104,6 +125,19 @@ describe 'Parser.Long', ->
       DrReadUsbStatus File Open success
 
 
+
+
+    """
+
+  it "should ignore newlines preceding messages", (done) ->
+    parser = new LongParser
+    parser.on 'entry', (entry) ->
+      expect(entry.message).to.equal 'DrReadUsbStatus File Open success'
+      done()
+    parser.parse new Buffer """
+      [ 05-08 13:30:05.013  2576:0xa10 E/DataRouter ]
+
+      DrReadUsbStatus File Open success
 
 
     """
