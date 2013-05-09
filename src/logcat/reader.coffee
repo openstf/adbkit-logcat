@@ -2,7 +2,7 @@
 
 Parser = require './parser'
 
-class Stream extends EventEmitter
+class Reader extends EventEmitter
   constructor: (@options = {}) ->
     @options.format ||= 'long'
     @parser = Parser.get @options.format
@@ -32,4 +32,4 @@ class Stream extends EventEmitter
     @stream.end()
     return this
 
-module.exports = Stream
+module.exports = Reader

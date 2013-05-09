@@ -12,7 +12,7 @@ Logcat = require 'stf-logcat'
 proc = spawn 'adb', ['logcat', '-v', 'long']
 
 # Connect logcat to the stream
-logcat = Logcat.connectStream proc.stdout
+logcat = Logcat.readStream proc.stdout
 logcat.on 'entry', (entry) ->
   console.log entry.message
 

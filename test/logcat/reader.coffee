@@ -3,25 +3,25 @@ Chai = require 'chai'
 Chai.use require 'sinon-chai'
 {expect} = Chai
 
-Stream = require '../../src/logcat/stream'
+Reader = require '../../src/logcat/reader'
 MockDuplex = require '../mock/duplex'
 
-describe 'Stream', ->
+describe 'Reader', ->
 
   it "should have a 'stream' property", (done) ->
-    logcat = new Stream()
+    logcat = new Reader()
     expect(logcat).to.have.property 'stream'
     done()
 
   it "should have an 'options' property", (done) ->
-    logcat = new Stream()
+    logcat = new Reader()
     expect(logcat).to.have.property 'options'
     done()
 
   describe "options", ->
 
     it "should be set via constructor", (done) ->
-      logcat = new Stream bar: 'foo'
+      logcat = new Reader bar: 'foo'
       expect(logcat.options.bar).to.equal 'foo'
       done()
 
@@ -29,14 +29,14 @@ describe 'Stream', ->
 
     it "should emit 'finish' when underlying stream does", (done) ->
       duplex = new MockDuplex
-      logcat = new Stream().connect duplex
+      logcat = new Reader().connect duplex
       logcat.on 'finish', ->
         done()
       duplex.end()
 
     it "should emit 'end' when underlying stream does", (done) ->
       duplex = new MockDuplex
-      logcat = new Stream().connect duplex
+      logcat = new Reader().connect duplex
       logcat.on 'end', ->
         done()
       duplex.causeRead 'foo'
@@ -44,7 +44,7 @@ describe 'Stream', ->
 
     it "should emit 'entry' when entries are found in stream", (done) ->
       duplex = new MockDuplex
-      logcat = new Stream().connect duplex
+      logcat = new Reader().connect duplex
       counter = 0
       logcat.on 'entry', (entry) ->
         counter += 1
@@ -67,7 +67,7 @@ describe 'Stream', ->
 
     it "should emit 'error' on a parsing error", (done) ->
       duplex = new MockDuplex
-      logcat = new Stream().connect duplex
+      logcat = new Reader().connect duplex
       logcat.on 'error', (err) ->
         done()
       duplex.causeRead 'foo\n\n'
@@ -76,13 +76,13 @@ describe 'Stream', ->
 
     it "should set the 'stream' property", (done) ->
       duplex = new MockDuplex
-      logcat = new Stream().connect duplex
+      logcat = new Reader().connect duplex
       expect(logcat.stream).to.be.equal duplex
       done()
 
     it "should be chainable", (done) ->
       duplex = new MockDuplex
-      logcat = new Stream()
+      logcat = new Reader()
       expect(logcat.connect duplex).to.equal logcat
       done()
 
@@ -90,13 +90,13 @@ describe 'Stream', ->
 
     it "should be chainable", (done) ->
       duplex = new MockDuplex
-      logcat = new Stream().connect duplex
+      logcat = new Reader().connect duplex
       expect(logcat.end()).to.equal logcat
       done()
 
     it "should end underlying stream", (done) ->
       duplex = new MockDuplex
-      logcat = new Stream().connect duplex
+      logcat = new Reader().connect duplex
       logcat.on 'finish', ->
         done()
       logcat.end()

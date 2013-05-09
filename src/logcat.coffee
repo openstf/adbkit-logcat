@@ -1,9 +1,9 @@
-Stream = require './logcat/stream'
+Reader = require './logcat/reader'
 
 class Logcat
-  @connectStream: (stream, options) ->
-    new Stream(options).connect stream
+  @readStream: (stream, options) ->
+    new Reader(options).connect stream
 
-Logcat.Stream = Stream
+Logcat.Reader = Reader
 
 module.exports = Logcat
