@@ -1,5 +1,6 @@
 Parser = require '../parser'
 Entry = require '../entry'
+Priority = require '../priority'
 
 class Long extends Parser
   HEAD = /// ^
@@ -152,7 +153,7 @@ class Long extends Parser
     entry.setDate date
     entry.setPid +head[7]
     entry.setTid +head[8]
-    entry.setPriority head[9]
+    entry.setPriority Priority.fromLetter head[9]
     entry.setTag head[10]
     entry.setMessage message
     this.emit 'entry', entry

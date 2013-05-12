@@ -4,6 +4,7 @@ Chai.use require 'sinon-chai'
 {expect} = Chai
 
 Parser = require '../../../src/logcat/parser'
+Priority = require '../../../src/logcat/priority'
 LongParser = require '../../../src/logcat/parser/long'
 
 describe 'Parser.Long', ->
@@ -82,7 +83,7 @@ describe 'Parser.Long', ->
       expect(entry.date.getMilliseconds()).to.equal 748
       expect(entry.pid).to.equal 2700
       expect(entry.tid).to.equal 0xac7
-      expect(entry.priority).to.equal 'D'
+      expect(entry.priority).to.equal Priority.DEBUG
       expect(entry.tag).to.equal 'PowerManagerService'
       expect(entry.message).to.equal 'onSensorChanged: light value: 1000'
       done()
@@ -106,7 +107,7 @@ describe 'Parser.Long', ->
       expect(entry.date.getMilliseconds()).to.equal 188
       expect(entry.pid).to.equal 2823
       expect(entry.tid).to.equal 0xb07
-      expect(entry.priority).to.equal 'I'
+      expect(entry.priority).to.equal Priority.INFO
       expect(entry.tag).to.equal 'StatusBarPolicy'
       expect(entry.message).to.equal 'BAT. S:5 H:2'
       done()
