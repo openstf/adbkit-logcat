@@ -1,15 +1,18 @@
 {EventEmitter} = require 'events'
 
 Parser = require './parser'
+Transform = require './transform'
 
 class Reader extends EventEmitter
   constructor: (@options = {}) ->
     @options.format ||= 'binary'
     @parser = Parser.get @options.format
+    @transform = new Transform
     @stream = null
 
   _hook: ->
-    @stream.on 'data', (data) =>
+    @stream.pipe @transform
+    @transform.on 'data', (data) =>
       @parser.parse data
     @stream.on 'error', (err) =>
       this.emit 'error', err

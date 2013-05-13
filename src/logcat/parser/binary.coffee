@@ -9,27 +9,8 @@ class Binary extends Parser
   constructor: ->
     @buffer = new Buffer ''
 
-  # Sadly, the ADB shell is not very smart. It automatically converts every
-  # 0x0a ('\n') it can find to 0x0d 0x0a ('\r\n'). This also applies to binary
-  # content. We could get rid of this behavior by setting `stty raw`, but
-  # unfortunately it's not available by default (you'd have to install busybox)
-  # or something similar. On the up side, it really does do this for all line
-  # feeds, so we don't need to handle any special cases.
-  _repair: (chunk) ->
-    good = []
-    lo = 0
-    hi = 0
-    length = chunk.length
-    while hi < length
-      if chunk[hi] is 0x0a
-        good.push chunk.slice lo, hi - 1 # exclude 0x0d
-        lo = hi
-      hi += 1
-    good.push chunk.slice lo
-    return good
-
   parse: (chunk) ->
-    @buffer = Buffer.concat [@buffer].concat this._repair chunk
+    @buffer = Buffer.concat [@buffer, chunk]
     while @buffer.length > HEADER_LENGTH
       cursor = 0
       length = @buffer.readUInt16LE cursor
