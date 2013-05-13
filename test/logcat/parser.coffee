@@ -1,7 +1,7 @@
 {expect} = require 'chai'
 
 Parser = require '../../src/logcat/parser'
-LongParser = require '../../src/logcat/parser/long'
+BinaryParser = require '../../src/logcat/parser/binary'
 
 describe 'Parser', ->
 
@@ -12,8 +12,8 @@ describe 'Parser', ->
       done()
 
     it "should return a new Parser of the given type", (done) ->
-      parser = Parser.get 'long'
-      expect(parser).to.be.an.instanceOf LongParser
+      parser = Parser.get 'binary'
+      expect(parser).to.be.an.instanceOf BinaryParser
       done()
 
   describe 'parse(chunk)', ->
