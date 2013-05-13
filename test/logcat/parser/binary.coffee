@@ -31,7 +31,14 @@ describe 'Parser.Binary', ->
     parser.on 'wait', done
     parser.parse new Buffer 'foo'
 
-  it "should parse an entry", (done) ->
+  it "should emit 'error' if entry data cannot be parsed", (done) ->
+    parser = new BinaryParser
+    parser.on 'error', (err) ->
+      expect(err).to.be.an.instanceOf Error
+      done()
+    parser.parse broken1
+
+  it "should emit 'entry' when an entry is found", (done) ->
     parser = new BinaryParser
     parser.on 'entry', (entry) ->
       expect(entry.date).to.be.an.instanceOf Date
@@ -67,13 +74,6 @@ describe 'Parser.Binary', ->
       expect(entrySpy).to.have.been.calledThrice
       done()
     parser.parse fixt3
-
-  it "should emit 'error' if entry data cannot be parsed", (done) ->
-    parser = new BinaryParser
-    parser.on 'error', (err) ->
-      expect(err).to.be.an.instanceOf Error
-      done()
-    parser.parse broken1
 
   it "should detect and remove 0x0a to 0x0d 0x0a conversions", (done) ->
     parser = new BinaryParser
