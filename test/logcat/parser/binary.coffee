@@ -14,6 +14,7 @@ describe 'Parser.Binary', ->
   fixt1 = Fs.readFileSync Path.join __dirname, '../../fixtures/1-default.dat'
   fixt3 = Fs.readFileSync Path.join __dirname, '../../fixtures/3-default.dat'
   broken1 = Fs.readFileSync Path.join __dirname, '../../fixtures/1-broken.dat'
+  crlf1 = Fs.readFileSync Path.join __dirname, '../../fixtures/1-crlf.dat'
 
   it "should implement Parser", (done) ->
     parser = new BinaryParser
@@ -73,3 +74,22 @@ describe 'Parser.Binary', ->
       expect(err).to.be.an.instanceOf Error
       done()
     parser.parse broken1
+
+  it "should detect and remove 0x0a to 0x0d 0x0a conversions", (done) ->
+    parser = new BinaryParser
+    parser.on 'entry', (entry) ->
+      expect(entry.date).to.be.an.instanceOf Date
+      expect(entry.date.getFullYear()).to.equal 2013
+      expect(entry.date.getMonth()).to.equal 4
+      expect(entry.date.getDate()).to.equal 13
+      expect(entry.date.getHours()).to.equal 1
+      expect(entry.date.getMinutes()).to.equal 16
+      expect(entry.date.getSeconds()).to.equal 51
+      expect(entry.date.getMilliseconds()).to.equal 348
+      expect(entry.pid).to.equal 26634
+      expect(entry.tid).to.equal 26676
+      expect(entry.priority).to.equal Priority.DEBUG
+      expect(entry.tag).to.equal 'dalvikvm'
+      expect(entry.message).to.equal 'WAIT_FOR_CONCURRENT_GC blocked 15ms'
+      done()
+    parser.parse crlf1
