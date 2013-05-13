@@ -2,6 +2,7 @@
 
 Logcat = require '../'
 Reader = require '../src/logcat/reader'
+Priority = require '../src/logcat/priority'
 MockDuplex = require './mock/duplex'
 
 describe 'Logcat', ->
@@ -10,6 +11,12 @@ describe 'Logcat', ->
 
     it "should be exposed", (done) ->
       expect(Logcat.Reader).to.equal Reader
+      done()
+
+  describe 'Priority', ->
+
+    it "should be exposed", (done) ->
+      expect(Logcat.Priority).to.equal Priority
       done()
 
   describe '@readStream(stream, options)', ->

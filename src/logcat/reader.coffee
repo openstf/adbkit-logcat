@@ -4,7 +4,7 @@ Parser = require './parser'
 
 class Reader extends EventEmitter
   constructor: (@options = {}) ->
-    @options.format ||= 'long'
+    @options.format ||= 'binary'
     @parser = Parser.get @options.format
     @stream = null
 

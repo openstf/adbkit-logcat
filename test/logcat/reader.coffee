@@ -4,6 +4,7 @@ Chai.use require 'sinon-chai'
 {expect} = Chai
 
 Reader = require '../../src/logcat/reader'
+Entry = require '../../src/logcat/entry'
 MockDuplex = require '../mock/duplex'
 
 describe 'Reader', ->
@@ -42,35 +43,21 @@ describe 'Reader', ->
       duplex.causeRead 'foo'
       duplex.end()
 
-    it "should emit 'entry' when entries are found in stream", (done) ->
+    it "should forward 'entry' from parser", (done) ->
       duplex = new MockDuplex
       logcat = new Reader().connect duplex
-      counter = 0
       logcat.on 'entry', (entry) ->
-        counter += 1
-        if counter is 3
-          done()
-      duplex.causeRead """
-        --------- beginning of /dev/log/main
-        --------- beginning of /dev/log/system
-        [ 05-08 19:36:25.948  1279:0x502 D/dalvikvm ]
-        GC_CONCURRENT freed 448K, 51% free x/y, external z/p, paused 8ms+2ms
+        expect(entry).to.be.an.instanceOf Entry
+        done()
+      logcat.parser.emit 'entry', new Entry
 
-        [ 05-08 19:36:32.973  2700:0xac4 E/BatteryService ]
-        TMU status = 0
-
-        [ 05-08 19:36:32.973  2700:0xac4 D/BatteryService ]
-        update start
-
-
-      """
-
-    it "should emit 'error' on a parsing error", (done) ->
+    it "should forward 'error' from parser", (done) ->
       duplex = new MockDuplex
       logcat = new Reader().connect duplex
       logcat.on 'error', (err) ->
+        expect(err).to.be.an.instanceOf Error
         done()
-      duplex.causeRead 'foo\n\n'
+      logcat.parser.emit 'error', new Error 'foo'
 
   describe 'connect(stream)', ->
 
