@@ -8,8 +8,8 @@
 Logcat = require 'stf-logcat'
 {spawn} = require 'child_process'
 
-# Retrieve a log stream
-proc = spawn 'adb', ['logcat', '-v', 'long']
+# Retrieve a binary log stream
+proc = spawn 'adb', ['logcat', '-B']
 
 # Connect logcat to the stream
 logcat = Logcat.readStream proc.stdout
