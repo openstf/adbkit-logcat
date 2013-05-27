@@ -46,9 +46,9 @@ describe 'Parser.Binary', ->
       expect(entry.date.getMonth()).to.equal 4
       expect(entry.date.getDate()).to.equal 13
       expect(entry.date.getHours()).to.equal 1
-      expect(entry.date.getMinutes()).to.equal 16
-      expect(entry.date.getSeconds()).to.equal 51
-      expect(entry.date.getMilliseconds()).to.equal 348
+      expect(entry.date.getMinutes()).to.equal 5
+      expect(entry.date.getSeconds()).to.equal 25
+      expect(entry.date.getMilliseconds()).to.equal 686
       expect(entry.pid).to.equal 26642
       expect(entry.tid).to.equal 26676
       expect(entry.priority).to.equal Priority.DEBUG
