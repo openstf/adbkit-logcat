@@ -25,7 +25,7 @@ class Binary extends Parser
       sec = @buffer.readInt32LE cursor
       cursor += 4
       nsec = @buffer.readInt32LE cursor
-      entry.setDate new Date sec * 1000 + nsec / 1000
+      entry.setDate new Date sec * 1000 + nsec / 1000000
       cursor += 4
       data = @buffer.slice cursor, cursor + length
       cursor += length
