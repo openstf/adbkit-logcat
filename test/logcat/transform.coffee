@@ -21,6 +21,7 @@ describe 'Transform', ->
       done()
     duplex.pipe transform
     duplex.causeRead 'foo'
+    duplex.causeEnd()
 
   it "should not remove 0x0d if not followed by 0x0a", (done) ->
     duplex = new MockDuplex
@@ -32,6 +33,7 @@ describe 'Transform', ->
       done()
     duplex.pipe transform
     duplex.causeRead new Buffer [0x0d, 0x05]
+    duplex.causeEnd()
 
   it "should remove 0x0d if followed by 0x0a", (done) ->
     duplex = new MockDuplex
@@ -43,6 +45,7 @@ describe 'Transform', ->
       done()
     duplex.pipe transform
     duplex.causeRead new Buffer [0x0d, 0x0a, 0x97]
+    duplex.causeEnd()
 
   it "should not push 0x0d if last in stream", (done) ->
     duplex = new MockDuplex
@@ -69,7 +72,7 @@ describe 'Transform', ->
     duplex.pipe transform
     duplex.causeRead new Buffer [0x62, 0x0d]
     duplex.causeRead new Buffer [0x37]
-    duplex.end()
+    duplex.causeEnd()
 
   it "should remove saved 0x0d if next chunk starts with 0x0a", (done) ->
     duplex = new MockDuplex
@@ -85,4 +88,4 @@ describe 'Transform', ->
     duplex.pipe transform
     duplex.causeRead new Buffer [0x62, 0x0d]
     duplex.causeRead new Buffer [0x0a]
-    duplex.end()
+    duplex.causeEnd()
