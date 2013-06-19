@@ -6,14 +6,18 @@ Transform = require './transform'
 class Reader extends EventEmitter
   constructor: (@options = {}) ->
     @options.format ||= 'binary'
+    @options.fixLineFeeds = true unless @options.fixLineFeeds?
     @parser = Parser.get @options.format
-    @transform = new Transform
     @stream = null
 
   _hook: ->
-    @stream.pipe @transform
-    @transform.on 'data', (data) =>
-      @parser.parse data
+    if @options.fixLineFeeds
+      transform = @stream.pipe new Transform
+      transform.on 'data', (data) =>
+        @parser.parse data
+    else
+      @stream.on 'data', (data) =>
+        @parser.parse data
     @stream.on 'error', (err) =>
       this.emit 'error', err
     @stream.on 'end', =>

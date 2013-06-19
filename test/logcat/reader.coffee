@@ -41,7 +41,7 @@ describe 'Reader', ->
       logcat.on 'end', ->
         done()
       duplex.causeRead 'foo'
-      duplex.end()
+      duplex.causeEnd()
 
     it "should forward 'entry' from parser", (done) ->
       duplex = new MockDuplex

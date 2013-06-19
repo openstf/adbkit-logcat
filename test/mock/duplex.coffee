@@ -12,6 +12,9 @@ class MockDuplex extends Stream.Duplex
     unless Buffer.isBuffer chunk
       chunk = new Buffer chunk
     this.push chunk
+    return
+
+  causeEnd: ->
     this.push null
     return
 
