@@ -2,7 +2,7 @@
   "name": "stf-logcat",
   "preferGlobal": false,
   "private": true,
-  "version": "0.5.1",
+  "version": "0.5.2",
   "author": "CyberAgent, Inc.",
   "main": "./index",
   "scripts": {
