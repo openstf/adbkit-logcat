@@ -2,13 +2,38 @@
 
 Parser = require './parser'
 Transform = require './transform'
+Priority = require './priority'
 
 class Reader extends EventEmitter
   constructor: (@options = {}) ->
     @options.format ||= 'binary'
     @options.fixLineFeeds = true unless @options.fixLineFeeds?
+    @filters =
+      all: -1
+      tags: {}
     @parser = Parser.get @options.format
     @stream = null
+
+  exclude: (tag) ->
+    @filters.tags[tag] = Priority.SILENT
+    return this
+
+  excludeAll: ->
+    @filters.all = Priority.SILENT
+    return this
+
+  include: (tag, priority = Priority.DEBUG) ->
+    @filters.tags[tag] = priority
+    return this
+
+  includeAll: (priority = Priority.DEBUG) ->
+    @filters.all = priority
+    return this
+
+  resetFilters: ->
+    @filters.all = -1
+    @filters.tags = {}
+    return this
 
   _hook: ->
     if @options.fixLineFeeds
@@ -25,10 +50,16 @@ class Reader extends EventEmitter
     @stream.on 'finish', =>
       this.emit 'finish'
     @parser.on 'entry', (entry) =>
-      this.emit 'entry', entry
+      this.emit 'entry', entry if this._filter entry
     @parser.on 'error', (err) =>
       this.emit 'error', err
     return
+
+  _filter: (entry) ->
+    priority = @filters.tags[entry.tag]
+    unless priority >= 0
+      priority = @filters.all
+    return entry.priority >= priority
 
   connect: (@stream) ->
     this._hook()
