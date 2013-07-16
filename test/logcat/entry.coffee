@@ -1,6 +1,7 @@
 {expect} = require 'chai'
 
 Entry = require '../../src/logcat/entry'
+BinaryParser = require '../../src/logcat/parser/binary'
 
 describe 'Entry', ->
 
@@ -77,3 +78,23 @@ describe 'Entry', ->
       expect(entry.message).to.equal 'foo bar'
       done()
 
+  describe 'toBinary()', ->
+
+    it "should return a valid binary entry", (done) ->
+      entry = new Entry
+      entry.setDate new Date()
+      entry.setPid 999
+      entry.setTid 888
+      entry.setPriority 6
+      entry.setTag 'AAAAA'
+      entry.setMessage 'BBBBBB'
+      parser = new BinaryParser
+      parser.on 'entry', (parsed) ->
+        expect(JSON.stringify(parsed.date)).to.equal JSON.stringify(entry.date)
+        expect(parsed.pid).to.equal entry.pid
+        expect(parsed.tid).to.equal entry.tid
+        expect(parsed.priority).to.equal entry.priority
+        expect(parsed.tag).to.equal entry.tag
+        expect(parsed.message).to.equal entry.message
+        done()
+      parser.parse entry.toBinary()
