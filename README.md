@@ -30,7 +30,7 @@ process.on 'exit', ->
 
 ## License
 
-Restricted until further notice.
+See [LICENSE](LICENSE).
 
 [nodejs]: <http://nodejs.org/>
 [msgpack]: <http://msgpack.org/>
