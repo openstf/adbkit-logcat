@@ -161,7 +161,7 @@ Convenience method for ending the stream.
 
 Skip entries with the provided tag. Alias for `reader.include(tag, Priority.SILENT)`. Note that even skipped events have to be parsed so that they can be ignored.
 
-* **tag*** The tag string to exclude.
+* **tag** The tag string to exclude.
 * Returns: The `Reader` instance.
 
 #### reader.excludeAll()
@@ -174,7 +174,7 @@ Skip **ALL** entries. Alias for `reader.includeAll(Priority.SILENT)`. Any entrie
 
 Include all entries with the given tag and a priority higher or equal to the given `priority`.
 
-* **tag*** The tag string to exclude.
+* **tag** The tag string to exclude.
 * **priority** Optional. A lower bound for the priority. The available (case-insensitive) options are listed below. Defaults to `Priority.DEBUG`.
     * **Priority.VERBOSE** (or `'verbose'` or `'v'`)
     * **Priority.DEBUG** (or `'debug'` or `'d'`)
@@ -189,7 +189,7 @@ Include all entries with the given tag and a priority higher or equal to the giv
 
 Include all entries with a priority higher or equal to the given `priority`.
 
-* **tag*** The tag string to exclude.
+* **tag** The tag string to exclude.
 * **priority** Optional. See `reader.include()` for details.
 * Returns: The `Reader` instance.
 
