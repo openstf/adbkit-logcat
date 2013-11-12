@@ -53,6 +53,35 @@ describe 'Priority', ->
       expect(Priority.fromLetter 'S').to.equal Priority.SILENT
       done()
 
+    it "should ignore case", (done) ->
+      expect(Priority.fromName 'v').to.equal Priority.VERBOSE
+      done()
+
     it "should return undefined for unknown letters", (done) ->
       expect(Priority.fromLetter '.').to.be.undefined
+      done()
+
+  describe '@fromName(name)', ->
+
+    it "should return the value of the priority", (done) ->
+      expect(Priority.fromName 'UNKNOWN').to.equal Priority.UNKNOWN
+      expect(Priority.fromName 'VERBOSE').to.equal Priority.VERBOSE
+      expect(Priority.fromName 'DEBUG').to.equal Priority.DEBUG
+      expect(Priority.fromName 'INFO').to.equal Priority.INFO
+      expect(Priority.fromName 'WARN').to.equal Priority.WARN
+      expect(Priority.fromName 'ERROR').to.equal Priority.ERROR
+      expect(Priority.fromName 'FATAL').to.equal Priority.FATAL
+      expect(Priority.fromName 'SILENT').to.equal Priority.SILENT
+      done()
+
+    it "should detect letters", (done) ->
+      expect(Priority.fromName 'V').to.equal Priority.VERBOSE
+      done()
+
+    it "should ignore case", (done) ->
+      expect(Priority.fromName 'veRboSe').to.equal Priority.VERBOSE
+      done()
+
+    it "should return undefined for unknown names", (done) ->
+      expect(Priority.fromName 'foo').to.be.undefined
       done()
