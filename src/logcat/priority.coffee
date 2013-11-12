@@ -41,11 +41,17 @@ class Priority
     7: 'F'
     8: 'S'
 
+  @fromName: (name) ->
+    value = Priority[name.toUpperCase()]
+    if value or value is 0
+      return value
+    Priority.fromLetter name
+
   @toName: (value) ->
     names[value]
 
   @fromLetter: (letter) ->
-    letters[letter]
+    letters[letter.toUpperCase()]
 
   @toLetter: (value) ->
     letterNames[value]

@@ -23,11 +23,11 @@ class Reader extends EventEmitter
     return this
 
   include: (tag, priority = Priority.DEBUG) ->
-    @filters.tags[tag] = priority
+    @filters.tags[tag] = this._priority priority
     return this
 
   includeAll: (priority = Priority.DEBUG) ->
-    @filters.all = priority
+    @filters.all = this._priority priority
     return this
 
   resetFilters: ->
@@ -60,6 +60,11 @@ class Reader extends EventEmitter
     unless priority >= 0
       priority = @filters.all
     return entry.priority >= priority
+
+  _priority: (priority) ->
+    if typeof priority is 'number'
+      return priority
+    Priority.fromName priority
 
   connect: (@stream) ->
     this._hook()
