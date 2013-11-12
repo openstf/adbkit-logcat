@@ -1,11 +1,11 @@
-# stf-logcat
+# adbkit-logcat
 
-**stf-logcat** provides a [Node.js][nodejs] interface for working with output produced by the Android [`logcat` tool][logcat-site]. It takes a log stream (that you must create separately), parses it, and emits log entries in real-time as they occur. Possible use cases include storing logs in a database, forwarding logs via [MessagePack][msgpack], or just advanced filtering.
+**adbkit-logcat** provides a [Node.js][nodejs] interface for working with output produced by the Android [`logcat` tool][logcat-site]. It takes a log stream (that you must create separately), parses it, and emits log entries in real-time as they occur. Possible use cases include storing logs in a database, forwarding logs via [MessagePack][msgpack], or just advanced filtering.
 
 ## Example
 
 ```coffeescript
-Logcat = require 'stf-logcat'
+Logcat = require 'adbkit-logcat'
 {spawn} = require 'child_process'
 
 # Retrieve a binary log stream

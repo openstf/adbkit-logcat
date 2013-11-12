@@ -1,8 +1,8 @@
 {
-  "name": "stf-logcat",
+  "name": "adbkit-logcat",
   "preferGlobal": false,
   "private": true,
-  "version": "0.5.3",
+  "version": "0.5.4",
   "author": "CyberAgent, Inc.",
   "main": "./index",
   "scripts": {
