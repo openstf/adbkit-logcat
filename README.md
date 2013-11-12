@@ -96,14 +96,14 @@ The following static properties are available:
 
 #### Priority.fromLetter(letter)
 
-Static method to convert the given `letter` into a numeric priority.
+Static method to convert the given `letter` into a numeric priority. For example, `Priority.fromName('d')` would return `Priority.DEBUG`.
 
 * **letter** The priority as a `String`. Any single, case-insensitive character matching the first character of any `Priority` constant is accepted.
 * Returns: The priority as a `Number`, or `undefined`.
 
 #### Priority.fromName(name)
 
-Static method to convert the given `name` into a numeric priority.
+Static method to convert the given `name` into a numeric priority. For example, `Priority.fromName('debug')` (or `Priority.fromName('d')`) would return `Priority.DEBUG`.
 
 * **name** The priority as a `String`. Any full, case-insensitive match of the `Priority` constants is accepted. If no match is found, falls back to `Priority.fromLetter()`.
 * Returns: The priority as a `Number`, or `undefined`.
@@ -175,14 +175,7 @@ Skip **ALL** entries. Alias for `reader.includeAll(Priority.SILENT)`. Any entrie
 Include all entries with the given tag and a priority higher or equal to the given `priority`.
 
 * **tag** The tag string to exclude.
-* **priority** Optional. A lower bound for the priority. The available (case-insensitive) options are listed below. Defaults to `Priority.DEBUG`.
-    * **Priority.VERBOSE** (or `'verbose'` or `'v'`)
-    * **Priority.DEBUG** (or `'debug'` or `'d'`)
-    * **Priority.INFO** (or `'info'` or `'i'`)
-    * **Priority.WARN** (or `'warn'` or `'w'`)
-    * **Priority.ERROR** (or `'error'` or `'e'`)
-    * **Priority.FATAL** (or `'fatal'` or `'f'`)
-    * **Priority.SILENT** (or `'silent'` or `'s'`)
+* **priority** Optional. A lower bound for the priority. Any numeric `Priority` constant or any `String` value accepted by `Priority.fromName()` is accepted. Defaults to `Priority.DEBUG`.
 * Returns: The `Reader` instance.
 
 #### reader.includeAll([priority])
