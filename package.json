@@ -1,7 +1,5 @@
 {
   "name": "adbkit-logcat",
-  "preferGlobal": false,
-  "private": true,
   "version": "0.5.4",
   "author": "CyberAgent, Inc.",
   "main": "./index",
@@ -26,7 +24,7 @@
     "sinon": "1.6.0",
     "sinon-chai": "2.4.0"
   },
-  "license": "restricted",
+  "license": "Apache-2.0",
   "engines": {
     "node": ">= 0.10.4"
   }
