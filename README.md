@@ -2,9 +2,7 @@
 
 **adbkit-logcat** provides a [Node.js][nodejs] interface for working with output produced by the Android [`logcat` tool][logcat-site]. It takes a log stream (that you must create separately), parses it, and emits log entries in real-time as they occur. Possible use cases include storing logs in a database, forwarding logs via [MessagePack][msgpack], or just advanced filtering.
 
-Note that while adbkit-logcat is written in CoffeeScript, it is compiled to JavaScript before publishing to NPM, which means that you are not required to use CoffeeScript.
-
-## Installation
+## Getting started
 
 Install via NPM:
 
@@ -12,11 +10,13 @@ Install via NPM:
 npm install --save adbkit-logcat
 ```
 
-## Examples
+Note that while adbkit-logcat is written in CoffeeScript, it is compiled to JavaScript before publishing to NPM, which means that you are not required to use CoffeeScript.
 
-### Output all log messages
+### Examples
 
-#### JavaScript
+#### Output all log messages
+
+##### JavaScript
 
 ```javascript
 var logcat = require('adbkit-logcat');
@@ -37,7 +37,7 @@ process.on('exit', function() {
 });
 ```
 
-#### CoffeeScript
+##### CoffeeScript
 
 ```coffeescript
 Logcat = require 'adbkit-logcat'
@@ -213,12 +213,16 @@ Converts the entry back to the binary log format.
 
 * Returns: The binary event as a [`Buffer`][node-buffer].
 
-## Links
+## More information
 
 * Liblog
     - [logprint.c][logprint-source]
 * Logcat
     - [logcat.cpp][logcat-source]
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
