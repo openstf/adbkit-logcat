@@ -228,6 +228,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 See [LICENSE](LICENSE).
 
+Copyright © CyberAgent, Inc. All Rights Reserved.
+
 [nodejs]: <http://nodejs.org/>
 [msgpack]: <http://msgpack.org/>
 [logcat-site]: <http://developer.android.com/tools/help/logcat.html>
