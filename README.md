@@ -174,7 +174,7 @@ Skip **ALL** entries. Alias for `reader.includeAll(Priority.SILENT)`. Any entrie
 
 Include all entries with the given tag and a priority higher or equal to the given `priority`.
 
-* **tag** The tag string to exclude. If `'*'`, works the same as `reader.includeAll(priority)`.
+* **tag** The tag string to include. If `'*'`, works the same as `reader.includeAll(priority)`.
 * **priority** Optional. A lower bound for the priority. Any numeric `Priority` constant or any `String` value accepted by `Priority.fromName()` is accepted. Defaults to `Priority.DEBUG`.
 * Returns: The `Reader` instance.
 
