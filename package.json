@@ -1,6 +1,6 @@
 {
   "name": "adbkit-logcat",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A Node.js interface for working with Android's logcat output.",
   "keywords": [
     "adb",
@@ -27,7 +27,6 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "async": "~0.2.9"
   },
   "devDependencies": {
     "chai": "~1.8.1",
