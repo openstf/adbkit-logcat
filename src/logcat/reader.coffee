@@ -5,6 +5,8 @@ Transform = require './transform'
 Priority = require './priority'
 
 class Reader extends EventEmitter
+  @ANY = '*'
+
   constructor: (@options = {}) ->
     @options.format ||= 'binary'
     @options.fixLineFeeds = true unless @options.fixLineFeeds?
@@ -15,6 +17,7 @@ class Reader extends EventEmitter
     @stream = null
 
   exclude: (tag) ->
+    return this.excludeAll() if tag is Reader.ANY
     @filters.tags[tag] = Priority.SILENT
     return this
 
@@ -23,6 +26,7 @@ class Reader extends EventEmitter
     return this
 
   include: (tag, priority = Priority.DEBUG) ->
+    return this.includeAll priority if tag is Reader.ANY
     @filters.tags[tag] = this._priority priority
     return this
 
