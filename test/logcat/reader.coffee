@@ -93,6 +93,14 @@ describe 'Reader', ->
         expect(spy).to.have.been.calledWith entry2
         done()
 
+    it "should map to excludeAll() if tag is '*'", (done) ->
+      duplex = new MockDuplex
+      logcat = new Reader().connect duplex
+      spy = Sinon.spy logcat, 'excludeAll'
+      logcat.exclude '*'
+      expect(spy).to.have.been.calledOnce
+      done()
+
   describe "excludeAll()", ->
 
     it "should be chainable", (done) ->
@@ -147,6 +155,15 @@ describe 'Reader', ->
       setImmediate ->
         expect(spy).to.have.been.calledOnce
         done()
+
+    it "should map to includeAll(priority) if tag is '*'", (done) ->
+      duplex = new MockDuplex
+      logcat = new Reader().connect duplex
+      spy = Sinon.spy logcat, 'includeAll'
+      logcat.include '*', 4
+      expect(spy).to.have.been.calledOnce
+      expect(spy).to.have.been.calledWith 4
+      done()
 
   describe "includeAll(priority)", ->
 
