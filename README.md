@@ -215,10 +215,9 @@ Converts the entry back to the binary log format.
 
 ## More information
 
-* Liblog
-    - [logprint.c][logprint-source]
-* Logcat
-    - [logcat.cpp][logcat-source]
+* [logprint.c](https://github.com/android/platform_system_core/blob/master/liblog/logprint.c)
+* [logcat.cpp](https://github.com/android/platform_system_core/blob/master/logcat/logcat.cpp)
+* [logger.h](https://github.com/android/platform_system_core/blob/master/include/log/logger.h)
 
 ## Contributing
 
@@ -233,8 +232,6 @@ Copyright © CyberAgent, Inc. All Rights Reserved.
 [nodejs]: <http://nodejs.org/>
 [msgpack]: <http://msgpack.org/>
 [logcat-site]: <http://developer.android.com/tools/help/logcat.html>
-[logprint-source]: <https://github.com/android/platform_system_core/blob/master/liblog/logprint.c>
-[logcat-source]: <https://github.com/android/platform_system_core/blob/master/logcat/logcat.cpp>
 [node-stream]: <http://nodejs.org/api/stream.html>
 [node-events]: <http://nodejs.org/api/events.html>
 [node-buffer]: <http://nodejs.org/api/buffer.html>
