@@ -3,21 +3,22 @@ Entry = require '../entry'
 Priority = require '../priority'
 
 class Binary extends Parser
-
-  HEADER_LENGTH = 20
+  HEADER_SIZE_V1 = 20
 
   constructor: ->
     @buffer = new Buffer ''
 
   parse: (chunk) ->
     @buffer = Buffer.concat [@buffer, chunk]
-    while @buffer.length > HEADER_LENGTH
+    while @buffer.length > 4
       cursor = 0
       length = @buffer.readUInt16LE cursor
-      if @buffer.length < HEADER_LENGTH + length
+      cursor += 2
+      headerSize = @buffer.readUInt16LE(cursor) or HEADER_SIZE_V1
+      cursor += 2
+      if @buffer.length < headerSize + length
         break
       entry = new Entry
-      cursor += 4 # include 2 bytes of padding
       entry.setPid @buffer.readInt32LE cursor
       cursor += 4
       entry.setTid @buffer.readInt32LE cursor
@@ -27,6 +28,8 @@ class Binary extends Parser
       nsec = @buffer.readInt32LE cursor
       entry.setDate new Date sec * 1000 + nsec / 1000000
       cursor += 4
+      # Make sure that we don't choke if new fields are added
+      cursor = headerSize
       data = @buffer.slice cursor, cursor + length
       cursor += length
       @buffer = @buffer.slice cursor
