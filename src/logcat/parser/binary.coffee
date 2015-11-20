@@ -4,6 +4,8 @@ Priority = require '../priority'
 
 class Binary extends Parser
   HEADER_SIZE_V1 = 20
+  HEADER_SIZE_V2_V3 = 24
+  HEADER_SIZE_V4 = 28
 
   constructor: ->
     @buffer = new Buffer ''
@@ -14,7 +16,14 @@ class Binary extends Parser
       cursor = 0
       length = @buffer.readUInt16LE cursor
       cursor += 2
-      headerSize = @buffer.readUInt16LE(cursor) or HEADER_SIZE_V1
+      skip = 0
+      headerSize = @buffer.readUInt16LE(cursor)
+      if headerSize == HEADER_SIZE_V4
+        skip = 8
+      else if headerSize == HEADER_SIZE_V2_V3
+        skip = 4
+      else
+        headerSize = HEADER_SIZE_V1
       cursor += 2
       if @buffer.length < headerSize + length
         break
@@ -29,7 +38,7 @@ class Binary extends Parser
       entry.setDate new Date sec * 1000 + nsec / 1000000
       cursor += 4
       # Make sure that we don't choke if new fields are added
-      cursor = headerSize
+      cursor += skip
       data = @buffer.slice cursor, cursor + length
       cursor += length
       @buffer = @buffer.slice cursor
