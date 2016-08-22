@@ -18,7 +18,7 @@ class Binary extends Parser
       headerSize = @buffer.readUInt16LE(cursor)
       # On v1, headerSize SHOULD be 0, but isn't on some devices. Attempt to
       # avoid that situation by discarding values that are obviously incorrect.
-      if headerSize is 0 or headerSize < HEADER_SIZE_V1 or headerSize > HEADER_SIZE_MAX
+      if headerSize < HEADER_SIZE_V1 or headerSize > HEADER_SIZE_MAX
         headerSize = HEADER_SIZE_V1
       cursor += 2
       if @buffer.length < headerSize + length
