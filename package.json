@@ -8,18 +8,18 @@
     "logcat"
   ],
   "bugs": {
-    "url": "https://github.com/CyberAgent/adbkit-logcat/issues"
+    "url": "https://github.com/openstf/adbkit-logcat/issues"
   },
   "license": "Apache-2.0",
   "author": {
-    "name": "CyberAgent, Inc.",
-    "email": "npm@cyberagent.co.jp",
-    "url": "http://www.cyberagent.co.jp/"
+    "name": "The OpenSTF Project",
+    "email": "contact@openstf.io",
+    "url": "https://openstf.io"
   },
   "main": "./index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CyberAgent/adbkit-logcat.git"
+    "url": "https://github.com/openstf/adbkit-logcat.git"
   },
   "scripts": {
     "postpublish": "grunt clean",
