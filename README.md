@@ -2,6 +2,10 @@
 
 **adbkit-logcat** provides a [Node.js][nodejs] interface for working with output produced by the Android [`logcat` tool][logcat-site]. It takes a log stream (that you must create separately), parses it, and emits log entries in real-time as they occur. Possible use cases include storing logs in a database, forwarding logs via [MessagePack][msgpack], or just advanced filtering.
 
+## Requirements
+
+* [Node.js](http://nodejs.org/) 4.x or newer. Older versions are not supported.
+
 ## Getting started
 
 Install via NPM:
@@ -10,8 +14,6 @@ Install via NPM:
 npm install --save adbkit-logcat
 ```
 
-Note that while adbkit-logcat is written in CoffeeScript, it is compiled to JavaScript before publishing to NPM, which means that you are not required to use CoffeeScript.
-
 ### Examples
 
 #### Output all log messages
@@ -19,41 +21,22 @@ Note that while adbkit-logcat is written in CoffeeScript, it is compiled to Java
 ##### JavaScript
 
 ```javascript
-var logcat = require('adbkit-logcat');
-var spawn = require('child_process').spawn;
+const logcat = require('adbkit-logcat')
+const {spawn} = require('child_process')
 
 // Retrieve a binary log stream
-var proc = spawn('adb', ['logcat', '-B']);
+const proc = spawn('adb', ['logcat', '-B'])
 
 // Connect logcat to the stream
-reader = logcat.readStream(proc.stdout);
-reader.on('entry', function(entry) {
-  console.log(entry.message);
-});
+reader = logcat.readStream(proc.stdout)
+reader.on('entry', entry => {
+  console.log(entry.message)
+})
 
 // Make sure we don't leave anything hanging
-process.on('exit', function() {
-  proc.kill();
-});
-```
-
-##### CoffeeScript
-
-```coffeescript
-Logcat = require 'adbkit-logcat'
-{spawn} = require 'child_process'
-
-# Retrieve a binary log stream
-proc = spawn 'adb', ['logcat', '-B']
-
-# Connect logcat to the stream
-reader = Logcat.readStream proc.stdout
-reader.on 'entry', (entry) ->
-  console.log entry.message
-
-# Make sure we don't leave anything hanging
-process.on 'exit', ->
+process.on('exit', () => {
   proc.kill()
+})
 ```
 
 ## API
