@@ -1,11 +1,12 @@
 /* eslint-env mocha */
 
-const {EventEmitter} = require('events')
+const EventEmitter = require('events').EventEmitter
 const path = require('path')
 const fs = require('fs')
 const sinon = require('sinon')
-const {expect} = require('chai')
+const expect = require('chai')
   .use(require('sinon-chai'))
+  .expect
 
 const Priority = require('../../../lib/logcat/priority')
 const BinaryParser = require('../../../lib/logcat/parser/binary')

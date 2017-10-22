@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-const {expect} = require('chai')
+const expect = require('chai').expect
 
 const Entry = require('../../lib/logcat/entry')
 const BinaryParser = require('../../lib/logcat/parser/binary')

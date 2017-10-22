@@ -1,8 +1,9 @@
 /* eslint-env mocha */
 
 const sinon = require('sinon')
-const {expect} = require('chai')
+const expect = require('chai')
   .use(require('sinon-chai'))
+  .expect
 
 const Reader = require('../../lib/logcat/reader')
 const Entry = require('../../lib/logcat/entry')

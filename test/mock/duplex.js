@@ -1,3 +1,5 @@
+'use strict'
+
 const stream = require('stream')
 
 class MockDuplex extends stream.Duplex {

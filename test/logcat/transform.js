@@ -1,8 +1,11 @@
+'use strict'
+
 /* eslint-env mocha */
 
 const stream = require('stream')
-const {expect} = require('chai')
+const expect = require('chai')
   .use(require('sinon-chai'))
+  .expect
 
 const Transform = require('../../lib/logcat/transform')
 const MockDuplex = require('../mock/duplex')
