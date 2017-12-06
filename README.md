@@ -55,10 +55,12 @@ Exposes `Reader`. See below for details.
 
 Creates a logcat reader instance from the provided logcat event [`Stream`][node-stream]. Note that you must create the stream separately.
 
+**IMPORTANT: The default line break behavior has changed on newer Android versions. Since adbkit-logcat merely parses output and is not able to communicate with ADB, you must _externally_ detect whether you need the `fixLineFeeds` option enabled or not. For newer versions it should be off.**
+
 * **stream** The event stream to read.
 * **options** Optional. The following options are supported:
     - **format** The format of the stream. Currently, the only supported value is `'binary'`, which (for example) `adb logcat -B` produces. Defaults to `'binary'`.
-    - **fixLineFeeds** All programs run via the ADB shell transform any `'\n'` in the output to `'\r\n'`, which breaks binary content. If set, this option reverses the transformation before parsing the stream. Defaults to `true`.
+    - **fixLineFeeds** On older Android versions, ADB shell automatically transformed any `'\n'` into `'\r\n'`, which broke binary content. If set, this option reverses the transformation before parsing the stream. Defaults to `true` for backwards compatibility. You **MUST** set this option to `false` on newer versions.
 * Returns: The `Reader` instance.
 
 ### Priority
