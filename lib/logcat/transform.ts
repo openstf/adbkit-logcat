@@ -1,12 +1,7 @@
-'use strict'
+import { Transform as OriginalTransform, TransformCallback } from 'stream'
 
-const stream = require('stream')
-
-class Transform extends stream.Transform {
-  constructor(options) {
-    super(options)
-    this.savedR = null
-  }
+class Transform extends OriginalTransform {
+  private savedR: Buffer = null
 
   // Sadly, the ADB shell is not very smart. It automatically converts every
   // 0x0a ('\n') it can find to 0x0d 0x0a ('\r\n'). This also applies to binary
@@ -14,12 +9,18 @@ class Transform extends stream.Transform {
   // unfortunately it's not available by default (you'd have to install busybox)
   // or something similar. On the up side, it really does do this for all line
   // feeds, so a simple transform works fine.
-  _transform(chunk, encoding, done) {
+  _transform(
+    chunk: Buffer,
+    encoding: BufferEncoding,
+    done: TransformCallback
+  ): void {
     let lo = 0
     let hi = 0
 
     if (this.savedR) {
-      if (chunk[0] !== 0x0a) { this.push(this.savedR) }
+      if (chunk[0] !== 0x0a) {
+        this.push(this.savedR)
+      }
       this.savedR = null
     }
 
@@ -45,4 +46,4 @@ class Transform extends stream.Transform {
   }
 }
 
-module.exports = Transform
+export = Transform

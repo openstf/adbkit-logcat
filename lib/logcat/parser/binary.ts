@@ -1,19 +1,13 @@
-'use strict'
-
-const EventEmitter = require('events').EventEmitter
-
-const Entry = require('../entry')
+import { EventEmitter } from 'events'
+import Entry from '../entry'
 
 const HEADER_SIZE_V1 = 20
 const HEADER_SIZE_MAX = 100
 
 class Binary extends EventEmitter {
-  constructor(options) {
-    super(options)
-    this.buffer = new Buffer(0)
-  }
+  private buffer = new Buffer(0)
 
-  parse(chunk) {
+  public parse(chunk: Buffer): void {
     this.buffer = Buffer.concat([this.buffer, chunk])
 
     while (this.buffer.length > 4) {
@@ -23,11 +17,11 @@ class Binary extends EventEmitter {
       let headerSize = this.buffer.readUInt16LE(cursor)
       // On v1, headerSize SHOULD be 0, but isn't on some devices. Attempt to
       // avoid that situation by discarding values that are obviously incorrect.
-      if ((headerSize < HEADER_SIZE_V1) || (headerSize > HEADER_SIZE_MAX)) {
+      if (headerSize < HEADER_SIZE_V1 || headerSize > HEADER_SIZE_MAX) {
         headerSize = HEADER_SIZE_V1
       }
       cursor += 2
-      if (this.buffer.length < (headerSize + length)) {
+      if (this.buffer.length < headerSize + length) {
         break
       }
       const entry = new Entry()
@@ -38,7 +32,7 @@ class Binary extends EventEmitter {
       const sec = this.buffer.readInt32LE(cursor)
       cursor += 4
       const nsec = this.buffer.readInt32LE(cursor)
-      entry.setDate(new Date((sec * 1000) + (nsec / 1000000)))
+      entry.setDate(new Date(sec * 1000 + nsec / 1000000))
       cursor += 4
       // Make sure that we don't choke if new fields are added
       cursor = headerSize
@@ -55,7 +49,7 @@ class Binary extends EventEmitter {
     }
   }
 
-  _processEntry(entry, data) {
+  private _processEntry(entry: Entry, data: Buffer): void {
     entry.setPriority(data[0])
 
     let cursor = 1
@@ -73,4 +67,4 @@ class Binary extends EventEmitter {
   }
 }
 
-module.exports = Binary
+export = Binary

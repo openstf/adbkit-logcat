@@ -1,40 +1,36 @@
-'use strict'
-
 class Entry {
-  constructor() {
-    this.date = null
-    this.pid = -1
-    this.tid = -1
-    this.priority = null
-    this.tag = null
-    this.message = null
-  }
+  public date: Date = null
+  public pid = -1
+  public tid = -1
+  public priority: number = null
+  public tag: string = null
+  public message: string = null
 
-  setDate(date) {
+  public setDate(date: Date): void {
     this.date = date
   }
 
-  setPid(pid) {
+  public setPid(pid: number): void {
     this.pid = pid
   }
 
-  setTid(tid) {
+  public setTid(tid: number): void {
     this.tid = tid
   }
 
-  setPriority(priority) {
+  public setPriority(priority: number): void {
     this.priority = priority
   }
 
-  setTag(tag) {
+  public setTag(tag: string): void {
     this.tag = tag
   }
 
-  setMessage(message) {
+  public setMessage(message: string): void {
     this.message = message
   }
 
-  toBinary() {
+  public toBinary(): Buffer {
     let length = 20 // header
     length += 1 // priority
     length += this.tag.length
@@ -66,4 +62,4 @@ class Entry {
   }
 }
 
-module.exports = Entry
+export = Entry
