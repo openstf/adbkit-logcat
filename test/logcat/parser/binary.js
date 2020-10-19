@@ -49,10 +49,8 @@ describe('Parser.Binary', () => {
       expect(entry.date).to.be.an.instanceOf(Date)
       expect(entry.date.getFullYear()).to.equal(2013)
       expect(entry.date.getMonth()).to.equal(4)
-      expect(entry.date.getDate()).to.equal(12)
-      expect(entry.date.getHours()).to.equal(16)
-      expect(entry.date.getMinutes()).to.equal(5)
-      expect(entry.date.getSeconds()).to.equal(25)
+      // Date type in JavaScript includes timezone. It is not reliable to compare day/hours/minutes
+      expect(entry.date.toISOString()).to.equal('2013-05-12T16:05:25.686Z');
       expect(entry.date.getMilliseconds()).to.equal(686)
       expect(entry.pid).to.equal(26642)
       expect(entry.tid).to.equal(26676)
