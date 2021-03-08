@@ -1,6 +1,6 @@
 {
   "name": "@devicefarmer/adbkit-logcat",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "A Node.js interface for working with Android's logcat output.",
   "keywords": [
     "adb",
@@ -8,18 +8,18 @@
     "logcat"
   ],
   "bugs": {
-    "url": "https://github.com/openstf/adbkit-logcat/issues"
+    "url": "https://github.com/devicefarmer/adbkit-logcat/issues"
   },
   "license": "Apache-2.0",
   "author": {
     "name": "The OpenSTF Project",
-    "email": "contact@openstf.io",
-    "url": "https://openstf.io"
+    "email": "contact@devicefarmer.com",
+    "url": "https://devicefarmer,com"
   },
   "main": "./index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openstf/adbkit-logcat.git"
+    "url": "https://github.com/devicefarmer/adbkit-logcat.git"
   },
   "scripts": {
     "compile": "tsc -p .",
