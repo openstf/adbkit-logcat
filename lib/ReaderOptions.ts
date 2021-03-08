@@ -6,7 +6,7 @@ interface EventEmitterOptions {
 }
 
 export interface ReaderOptions extends EventEmitterOptions {
-  format: string
-  priority: number
-  fixLineFeeds: boolean
+  format?: string
+  priority?: number
+  fixLineFeeds?: boolean
 }
