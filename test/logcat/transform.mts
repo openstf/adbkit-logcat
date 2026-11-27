@@ -1,14 +1,12 @@
-'use strict'
+import stream from 'stream'
+import * as chai from 'chai'
+import sinonChai from 'sinon-chai'
 
-/* eslint-env mocha */
+chai.use(sinonChai)
+const expect = chai.expect
 
-const stream = require('stream')
-const expect = require('chai')
-  .use(require('sinon-chai'))
-  .expect
-
-const Transform = require('../../lib/logcat/transform')
-const MockDuplex = require('../mock/duplex')
+import Transform from '../../lib/logcat/transform.js'
+import MockDuplex from '../mock/duplex.mts'
 
 describe('Transform', () => {
   it('should implement stream.Transform', done => {
@@ -42,7 +40,7 @@ describe('Transform', () => {
     })
 
     duplex.pipe(transform)
-    duplex.causeRead(new Buffer([0x0d, 0x05]))
+    duplex.causeRead(Buffer.from([0x0d, 0x05]))
     duplex.causeEnd()
   })
 
@@ -58,7 +56,7 @@ describe('Transform', () => {
     })
 
     duplex.pipe(transform)
-    duplex.causeRead(new Buffer([0x0d, 0x0a, 0x97]))
+    duplex.causeRead(Buffer.from([0x0d, 0x0a, 0x97]))
     duplex.causeEnd()
   })
 
@@ -73,14 +71,14 @@ describe('Transform', () => {
     })
 
     duplex.pipe(transform)
-    duplex.causeRead(new Buffer([0x62, 0x0d]))
+    duplex.causeRead(Buffer.from([0x62, 0x0d]))
   })
 
   it('should push saved 0x0d if next chunk does not start with 0x0a', done => {
     const duplex = new MockDuplex()
     const transform = new Transform()
 
-    let buffer = new Buffer('')
+    let buffer = Buffer.from('')
     transform.on('data', data => {
       buffer = Buffer.concat([buffer, data])
     })
@@ -94,8 +92,8 @@ describe('Transform', () => {
     })
 
     duplex.pipe(transform)
-    duplex.causeRead(new Buffer([0x62, 0x0d]))
-    duplex.causeRead(new Buffer([0x37]))
+    duplex.causeRead(Buffer.from([0x62, 0x0d]))
+    duplex.causeRead(Buffer.from([0x37]))
     duplex.causeEnd()
   })
 
@@ -103,7 +101,7 @@ describe('Transform', () => {
     const duplex = new MockDuplex()
     const transform = new Transform()
 
-    let buffer = new Buffer('')
+    let buffer = Buffer.from('')
     transform.on('data', data => {
       buffer = Buffer.concat([buffer, data])
     })
@@ -116,8 +114,8 @@ describe('Transform', () => {
     })
 
     duplex.pipe(transform)
-    duplex.causeRead(new Buffer([0x62, 0x0d]))
-    duplex.causeRead(new Buffer([0x0a]))
+    duplex.causeRead(Buffer.from([0x62, 0x0d]))
+    duplex.causeRead(Buffer.from([0x0a]))
     duplex.causeEnd()
   })
 })

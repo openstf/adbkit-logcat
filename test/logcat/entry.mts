@@ -1,45 +1,43 @@
-/* eslint-env mocha */
+import { expect } from 'chai'
 
-const expect = require('chai').expect
-
-const Entry = require('../../lib/logcat/entry')
-const BinaryParser = require('../../lib/logcat/parser/binary')
+import Entry from '../../lib/logcat/entry.js'
+import BinaryParser from '../../lib/logcat/parser/binary.js'
 
 describe('Entry', () => {
-  it('should have a \'date\' property', done => {
+  it("should have a 'date' property", done => {
     expect(new Entry()).to.have.property('date')
     done()
   })
 
-  it('should have a \'pid\' property', done => {
+  it("should have a 'pid' property", done => {
     expect(new Entry()).to.have.property('pid')
     done()
   })
 
-  it('should have a \'tid\' property', done => {
+  it("should have a 'tid' property", done => {
     expect(new Entry()).to.have.property('tid')
     done()
   })
 
-  it('should have a \'priority\' property', done => {
+  it("should have a 'priority' property", done => {
     expect(new Entry()).to.have.property('priority')
     done()
   })
 
-  it('should have a \'tag\' property', done => {
+  it("should have a 'tag' property", done => {
     expect(new Entry()).to.have.property('tag')
     done()
   })
 
-  it('should have a \'message\' property', done => {
+  it("should have a 'message' property", done => {
     expect(new Entry()).to.have.property('message')
     done()
   })
 
   describe('setDate(date)', () => {
-    it('should set the \'date\' property', done => {
+    it("should set the 'date' property", done => {
       const entry = new Entry()
-      const date = new Date
+      const date = new Date()
       entry.setDate(date)
       expect(entry.date).to.equal(date)
       done()
@@ -47,7 +45,7 @@ describe('Entry', () => {
   })
 
   describe('setPid(pid)', () => {
-    it('should set the \'pid\' property', done => {
+    it("should set the 'pid' property", done => {
       const entry = new Entry()
       entry.setPid(346)
       expect(entry.pid).to.equal(346)
@@ -56,7 +54,7 @@ describe('Entry', () => {
   })
 
   describe('setTid(tid)', () => {
-    it('should set the \'tid\' property', done => {
+    it("should set the 'tid' property", done => {
       const entry = new Entry()
       entry.setTid(3278)
       expect(entry.tid).to.equal(3278)
@@ -65,7 +63,7 @@ describe('Entry', () => {
   })
 
   describe('setPriority(tid)', () => {
-    it('should set the \'priority\' property', done => {
+    it("should set the 'priority' property", done => {
       const entry = new Entry()
       entry.setPriority('D')
       expect(entry.priority).to.equal('D')
@@ -74,7 +72,7 @@ describe('Entry', () => {
   })
 
   describe('setTag(tag)', () => {
-    it('should set the \'tag\' property', done => {
+    it("should set the 'tag' property", done => {
       const entry = new Entry()
       entry.setTag('dalvikvm')
       expect(entry.tag).to.equal('dalvikvm')
@@ -83,7 +81,7 @@ describe('Entry', () => {
   })
 
   describe('setMessage(message)', () => {
-    it('should set the \'message\' property', done => {
+    it("should set the 'message' property", done => {
       const entry = new Entry()
       entry.setMessage('foo bar')
       expect(entry.message).to.equal('foo bar')

@@ -1,19 +1,25 @@
-/* eslint-env mocha */
+import { EventEmitter } from 'events'
+import path from 'path'
+import fs from 'fs'
+import sinon from 'sinon'
+import * as chai from 'chai'
+import sinonChai from 'sinon-chai'
 
-const EventEmitter = require('events').EventEmitter
-const path = require('path')
-const fs = require('fs')
-const sinon = require('sinon')
-const expect = require('chai')
-  .use(require('sinon-chai'))
-  .expect
+chai.use(sinonChai)
+const expect = chai.expect
 
-const Priority = require('../../../lib/logcat/priority')
-const BinaryParser = require('../../../lib/logcat/parser/binary')
+import Priority from '../../../lib/logcat/priority.js'
+import BinaryParser from '../../../lib/logcat/parser/binary.js'
 
-const fixt1 = fs.readFileSync(path.join(__dirname, '../../fixtures/1-default.dat'))
-const fixt3 = fs.readFileSync(path.join(__dirname, '../../fixtures/3-default.dat'))
-const broken1 = fs.readFileSync(path.join(__dirname, '../../fixtures/1-broken.dat'))
+const fixt1 = fs.readFileSync(
+  path.join(import.meta.dirname, '../../fixtures/1-default.dat')
+)
+const fixt3 = fs.readFileSync(
+  path.join(import.meta.dirname, '../../fixtures/3-default.dat')
+)
+const broken1 = fs.readFileSync(
+  path.join(import.meta.dirname, '../../fixtures/1-broken.dat')
+)
 
 describe('Parser.Binary', () => {
   it('should implement EventEmitter', done => {
@@ -22,19 +28,19 @@ describe('Parser.Binary', () => {
     done()
   })
 
-  it('should emit \'drain\' when all data has been parsed', done => {
+  it("should emit 'drain' when all data has been parsed", done => {
     const parser = new BinaryParser()
     parser.on('drain', done)
-    parser.parse(new Buffer(''))
+    parser.parse(Buffer.from(''))
   })
 
-  it('should emit \'wait\' when waiting for more data', done => {
+  it("should emit 'wait' when waiting for more data", done => {
     const parser = new BinaryParser()
     parser.on('wait', done)
-    parser.parse(new Buffer('foo'))
+    parser.parse(Buffer.from('foo'))
   })
 
-  it('should emit \'error\' if entry data cannot be parsed', done => {
+  it("should emit 'error' if entry data cannot be parsed", done => {
     const parser = new BinaryParser()
     parser.on('error', err => {
       expect(err).to.be.an.instanceOf(Error)
@@ -43,16 +49,14 @@ describe('Parser.Binary', () => {
     parser.parse(broken1)
   })
 
-  it('should emit \'entry\' when an entry is found', done => {
+  it("should emit 'entry' when an entry is found", done => {
     const parser = new BinaryParser()
     parser.on('entry', entry => {
       expect(entry.date).to.be.an.instanceOf(Date)
       expect(entry.date.getFullYear()).to.equal(2013)
       expect(entry.date.getMonth()).to.equal(4)
-      expect(entry.date.getDate()).to.equal(13)
-      expect(entry.date.getHours()).to.equal(1)
-      expect(entry.date.getMinutes()).to.equal(5)
-      expect(entry.date.getSeconds()).to.equal(25)
+      // Date type in JavaScript includes timezone. It is not reliable to compare day/hours/minutes
+      expect(entry.date.toISOString()).to.equal('2013-05-12T16:05:25.686Z')
       expect(entry.date.getMilliseconds()).to.equal(686)
       expect(entry.pid).to.equal(26642)
       expect(entry.tid).to.equal(26676)

@@ -1,10 +1,7 @@
-'use strict'
-
-const stream = require('stream')
+import stream from 'stream'
 
 class MockDuplex extends stream.Duplex {
-  _read(/*size*/) {
-  }
+  _read(/*size*/) {}
 
   _write(chunk, encoding, callback) {
     this.emit('write', chunk, encoding, callback)
@@ -13,7 +10,7 @@ class MockDuplex extends stream.Duplex {
 
   causeRead(chunk) {
     if (!Buffer.isBuffer(chunk)) {
-      chunk = new Buffer(chunk)
+      chunk = Buffer.from(chunk)
     }
 
     this.push(chunk)
@@ -24,4 +21,4 @@ class MockDuplex extends stream.Duplex {
   }
 }
 
-module.exports = MockDuplex
+export default MockDuplex

@@ -12,14 +12,14 @@ This repository was supreseded by https://github.com/DeviceFarmer/adbkit-logcat
 
 ## Requirements
 
-* [Node.js](http://nodejs.org/) 4.x or newer. Older versions are not supported.
+* [Node.js](https://nodejs.org/) 22 or newer. Older versions are not supported.
 
 ## Getting started
 
 Install via NPM:
 
 ```bash
-npm install --save adbkit-logcat
+npm install --save @devicefarmer/adbkit-logcat
 ```
 
 ### Examples
@@ -211,6 +211,16 @@ Converts the entry back to the binary log format.
 * [logprint.c](https://github.com/android/platform_system_core/blob/master/liblog/logprint.c)
 * [logcat.cpp](https://github.com/android/platform_system_core/blob/master/logcat/logcat.cpp)
 * [logger.h](https://github.com/android/platform_system_core/blob/master/include/log/logger.h)
+
+## Releasing
+
+The package is published to npm as [`@devicefarmer/adbkit-logcat`](https://www.npmjs.com/package/@devicefarmer/adbkit-logcat) by two GitHub Actions workflows:
+
+1. Run `Prepare release` with the version as input, for example `2.1.4`. It bumps `package.json`, writes the `CHANGELOG.md` section from GitHub's generated notes, and pushes `release/v2.1.4`. It writes nothing to `master`.
+2. Open the pull request it links to in the job summary, label it `ignore-for-release`, and merge it once the checks pass.
+3. Run `Release` on `master` with the same version. It tags `v2.1.4`, publishes the GitHub release with the notes from `CHANGELOG.md`, then builds, tests and publishes the package to npm with trusted publishing (OIDC), so no npm token is stored anywhere.
+
+The bump goes through a pull request because `master` is protected. `Release` refuses to run on any branch but `master`, so an unmerged `release/v*` branch cannot be published.
 
 ## Contributing
 

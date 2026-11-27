@@ -1,8 +1,6 @@
-/* eslint-env mocha */
+import { expect } from 'chai'
 
-const expect = require('chai').expect
-
-const Priority = require('../../lib/logcat/priority')
+import Priority from '../../lib/logcat/priority.js'
 
 describe('Priority', () => {
   describe('@toName(value)', () => {

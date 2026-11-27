@@ -1,13 +1,13 @@
-/* eslint-env mocha */
+import sinon from 'sinon'
+import * as chai from 'chai'
+import sinonChai from 'sinon-chai'
 
-const sinon = require('sinon')
-const expect = require('chai')
-  .use(require('sinon-chai'))
-  .expect
+chai.use(sinonChai)
+const expect = chai.expect
 
-const Reader = require('../../lib/logcat/reader')
-const Entry = require('../../lib/logcat/entry')
-const MockDuplex = require('../mock/duplex')
+import Reader from '../../lib/logcat/reader.js'
+import Entry from '../../lib/logcat/entry.js'
+import MockDuplex from '../mock/duplex.mts'
 
 describe('Reader', () => {
   const mockEntry = (date, pid, tid, priority, tag, message) => {
@@ -21,13 +21,13 @@ describe('Reader', () => {
     return entry
   }
 
-  it('should have a \'stream\' property', done => {
+  it("should have a 'stream' property", done => {
     const logcat = new Reader()
     expect(logcat).to.have.property('stream')
     done()
   })
 
-  it('should have an \'options\' property', done => {
+  it("should have an 'options' property", done => {
     const logcat = new Reader()
     expect(logcat).to.have.property('options')
     done()
@@ -35,21 +35,20 @@ describe('Reader', () => {
 
   describe('options', () =>
     it('should be set via constructor', done => {
-      const logcat = new Reader({bar: 'foo'})
+      const logcat = new Reader({ bar: 'foo' })
       expect(logcat.options.bar).to.equal('foo')
       done()
-    })
-  )
+    }))
 
   describe('events', () => {
-    it('should emit \'finish\' when underlying stream does', done => {
+    it("should emit 'finish' when underlying stream does", done => {
       const duplex = new MockDuplex()
       const logcat = new Reader().connect(duplex)
       logcat.on('finish', () => done())
       duplex.end()
     })
 
-    it('should emit \'end\' when underlying stream does', done => {
+    it("should emit 'end' when underlying stream does", done => {
       const duplex = new MockDuplex()
       const logcat = new Reader().connect(duplex)
       logcat.on('end', () => done())
@@ -57,17 +56,17 @@ describe('Reader', () => {
       duplex.causeEnd()
     })
 
-    it('should forward \'entry\' from parser', done => {
+    it("should forward 'entry' from parser", done => {
       const duplex = new MockDuplex()
       const logcat = new Reader().connect(duplex)
       logcat.on('entry', entry => {
         expect(entry).to.be.an.instanceOf(Entry)
         done()
       })
-      logcat.parser.emit('entry', new Entry)
+      logcat.parser.emit('entry', new Entry())
     })
 
-    it('should forward \'error\' from parser', done => {
+    it("should forward 'error' from parser", done => {
       const duplex = new MockDuplex()
       const logcat = new Reader().connect(duplex)
       logcat.on('error', err => {
@@ -104,7 +103,7 @@ describe('Reader', () => {
       })
     })
 
-    it('should map to excludeAll() if tag is \'*\'', done => {
+    it("should map to excludeAll() if tag is '*'", done => {
       const duplex = new MockDuplex()
       const logcat = new Reader().connect(duplex)
       const spy = sinon.spy(logcat, 'excludeAll')
@@ -176,7 +175,7 @@ describe('Reader', () => {
       })
     })
 
-    it('should map to includeAll(priority) if tag is \'*\'', done => {
+    it("should map to includeAll(priority) if tag is '*'", done => {
       const duplex = new MockDuplex()
       const logcat = new Reader().connect(duplex)
       const spy = sinon.spy(logcat, 'includeAll')
@@ -270,7 +269,7 @@ describe('Reader', () => {
   })
 
   describe('connect(stream)', () => {
-    it('should set the \'stream\' property', done => {
+    it("should set the 'stream' property", done => {
       const duplex = new MockDuplex()
       const logcat = new Reader().connect(duplex)
       expect(logcat.stream).to.be.equal(duplex)

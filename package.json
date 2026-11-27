@@ -1,6 +1,6 @@
 {
-  "name": "adbkit-logcat",
-  "version": "2.0.1",
+  "name": "@devicefarmer/adbkit-logcat",
+  "version": "3.0.0",
   "description": "A Node.js interface for working with Android's logcat output.",
   "keywords": [
     "adb",
@@ -8,30 +8,53 @@
     "logcat"
   ],
   "bugs": {
-    "url": "https://github.com/openstf/adbkit-logcat/issues"
+    "url": "https://github.com/devicefarmer/adbkit-logcat/issues"
   },
   "license": "Apache-2.0",
   "author": {
     "name": "The OpenSTF Project",
-    "email": "contact@openstf.io",
-    "url": "https://openstf.io"
+    "email": "contact@devicefarmer.com",
+    "url": "https://devicefarmer.com"
   },
   "main": "./index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openstf/adbkit-logcat.git"
+    "url": "git+https://github.com/DeviceFarmer/adbkit-logcat.git"
   },
   "scripts": {
-    "test": "mocha --recursive"
+    "compile": "tsc -p .",
+    "format": "prettier --write . && eslint . --fix",
+    "lint": "eslint . && prettier --check .",
+    "prepublishOnly": "npm run compile && npm run test",
+    "test": "mocha"
   },
   "dependencies": {},
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.0.2",
-    "sinon": "^1.17.5",
-    "sinon-chai": "^2.8.0"
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.20.5",
+    "chai": "^6.3.0",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0",
+    "mocha": "^12.0.3",
+    "prettier": "^3.9.10",
+    "sinon": "^22.1.0",
+    "sinon-chai": "^4.0.1",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.0"
   },
   "engines": {
-    "node": ">= 4"
+    "node": ">= 22"
+  },
+  "files": [
+    "/lib/**/*.js",
+    "/lib/**/*.d.ts",
+    "/index.js",
+    "/index.d.ts",
+    "/NOTICE"
+  ],
+  "types": "./index.d.ts",
+  "overrides": {
+    "glob": "^14.0.2",
+    "minimatch": "^11.0.1"
   }
 }
